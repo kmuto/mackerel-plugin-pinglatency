@@ -11,10 +11,52 @@
 # command = ['置いた場所/mackerel-ping-latency.rb', '-H', '対象ホスト名']
 # -cオプションでpingカウントを指定可能です（デフォルトは3）
 #
-# TODO:グラフ定義を作りたい。グラフボード名、ping latencyのms化、lossの%化
-# Debian/Ubuntuのpingを想定しているがほかのOSでは結果など違うかもしれない
 require 'open3'
 require 'optparse'
+require 'json'
+
+# グラフ定義作成
+if ENV['MACKEREL_AGENT_PLUGIN_META'] == '1'
+  meta = {
+    :graphs => {
+      'ping.loss' => {
+        :label => 'Ping Loss',
+        :unit => 'percentage',
+        :metrics => [
+          {
+            :name => 'percent',
+            :label => 'percent'
+          }
+        ]
+      },
+      'ping.latency' => {
+        :label => 'Ping Latency',
+        :unit => 'milliseconds',
+        :metrics => [
+          {
+            :name => 'rttmin',
+            :label => 'Min'
+          },
+          {
+            :name => 'rttmax',
+            :label => 'Max'
+          },
+          {
+            :name => 'rttavg',
+            :label => 'Average'
+          },
+          {
+            :name => 'rttstddev',
+            :label => 'STDDev'
+          }
+        ]
+      }
+    }
+  }
+  puts '# mackerel-agent-plugin'
+  puts meta.to_json
+  exit 0
+end
 
 # パラメータ
 count = 3
