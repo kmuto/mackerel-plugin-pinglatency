@@ -46,8 +46,8 @@ command = ["plugins\\bin\\mackerel-plugin-pinglatency.exe", "HOST"]
 ```
 
 ### Options
-- `-c COUNT`: Number of ping packets (default: 3)
-- `-t SECONDS`: Timeout seconds for each ping packet (default: 5)
+- `-c COUNT`: Number of ping packets (default: 5)
+- `-t SECONDS`: Timeout seconds for ping (default: 15)
 - `-V`: Verbose mode
 - `-v`: Show version
 
@@ -102,8 +102,8 @@ command = ["plugins\\bin\\mackerel-plugin-pinglatency.exe", "HOST"]
 ```
 
 ### オプション
-- `-c COUNT`: pingパケットの試行回数 (デフォルト: 3)
-- `-t SECONDS`: pingパケットのタイムアウト秒 (デフォルト: 5)
+- `-c COUNT`: pingパケットの試行回数 (デフォルト: 5)
+- `-t SECONDS`: pingのタイムアウト秒 (デフォルト: 15)
 - `-V`: 冗長モード
 - `-v`: バージョン表示
 

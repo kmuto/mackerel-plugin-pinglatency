@@ -22,10 +22,15 @@ type Plugin struct {
 // GraphDefinition interface for mackerelplugin
 func (p *Plugin) GraphDefinition() map[string]mp.Graphs {
 	graphdef := map[string]mp.Graphs{
-		"ping.latency": {
-			Label:   "Ping Latency",
-			Unit:    "milliseconds",
-			Metrics: []mp.Metrics{},
+		"ping.latency.#": {
+			Label: "Ping Latency",
+			Unit:  "milliseconds",
+			Metrics: []mp.Metrics{
+				{Name: "avg", Label: "avg"},
+				{Name: "min", Label: "min"},
+				{Name: "max", Label: "max"},
+				{Name: "stddev", Label: "stddev"},
+			},
 		},
 		"ping.packet_loss": {
 			Label:   "Ping Packet Loss",
@@ -36,11 +41,8 @@ func (p *Plugin) GraphDefinition() map[string]mp.Graphs {
 
 	for _, host := range p.Hosts {
 		eh := strings.ReplaceAll(host, ".", "_")
-		latencyGraph := graphdef["ping.latency"]
-		latencyGraph.Metrics = append(latencyGraph.Metrics, mp.Metrics{Name: eh + "_avg", Label: host + " avg"}, mp.Metrics{Name: eh + "_min", Label: host + " min"}, mp.Metrics{Name: eh + "_max", Label: host + " max"}, mp.Metrics{Name: eh + "_stddev", Label: host + " stddev"})
-		graphdef["ping.latency"] = latencyGraph
 		lossGraph := graphdef["ping.packet_loss"]
-		lossGraph.Metrics = append(lossGraph.Metrics, mp.Metrics{Name: eh + "_packet_loss", Label: host + " packet loss"})
+		lossGraph.Metrics = append(lossGraph.Metrics, mp.Metrics{Name: eh + "_packet_loss", Label: host})
 		graphdef["ping.packet_loss"] = lossGraph
 	}
 	return graphdef
@@ -119,10 +121,10 @@ func (p *Plugin) FetchMetrics() (map[string]float64, error) {
 		if r.packetLoss == 100.0 {
 			continue
 		}
-		ret[eh+"_avg"] = r.avg
-		ret[eh+"_min"] = r.min
-		ret[eh+"_max"] = r.max
-		ret[eh+"_stddev"] = r.stddev
+		ret["ping.latency."+eh+".avg"] = r.avg
+		ret["ping.latency."+eh+".min"] = r.min
+		ret["ping.latency."+eh+".max"] = r.max
+		ret["ping.latency."+eh+".stddev"] = r.stddev
 	}
 	return ret, nil
 }
@@ -132,8 +134,8 @@ var revision string
 
 // Do the plugin
 func Do() {
-	optCount := flag.Int("c", 3, "Number of ping packets")
-	optTimeout := flag.Int("t", 5, "Timeout seconds for each ping packet")
+	optCount := flag.Int("c", 5, "Number of ping packets")
+	optTimeout := flag.Int("t", 15, "Timeout seconds for ping")
 	optVerbose := flag.Bool("V", false, "Verbose mode")
 	optVersion := flag.Bool("v", false, "Show version")
 	flag.Parse()
