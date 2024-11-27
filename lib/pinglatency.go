@@ -29,7 +29,6 @@ func (p *Plugin) GraphDefinition() map[string]mp.Graphs {
 				{Name: "avg", Label: "avg"},
 				{Name: "min", Label: "min"},
 				{Name: "max", Label: "max"},
-				{Name: "stddev", Label: "stddev"},
 			},
 		},
 		"ping.packet_loss": {
@@ -53,7 +52,6 @@ type pingResult struct {
 	avg        float64
 	min        float64
 	max        float64
-	stddev     float64
 	packetLoss float64
 }
 
@@ -76,7 +74,6 @@ func (p *Plugin) ping(host string, channel chan *pingResult) {
 		result.avg = float64(stats.AvgRtt.Microseconds()) / 1000
 		result.min = float64(stats.MinRtt.Microseconds()) / 1000
 		result.max = float64(stats.MaxRtt.Microseconds()) / 1000
-		result.stddev = float64(stats.StdDevRtt.Microseconds()) / 1000
 
 		if p.Verbose {
 			fmt.Fprintf(os.Stderr, "--- %s ping statistics ---\n", stats.Addr)
@@ -124,7 +121,6 @@ func (p *Plugin) FetchMetrics() (map[string]float64, error) {
 		ret["ping.latency."+eh+".avg"] = r.avg
 		ret["ping.latency."+eh+".min"] = r.min
 		ret["ping.latency."+eh+".max"] = r.max
-		ret["ping.latency."+eh+".stddev"] = r.stddev
 	}
 	return ret, nil
 }
