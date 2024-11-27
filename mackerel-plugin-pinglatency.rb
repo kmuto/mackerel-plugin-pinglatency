@@ -25,7 +25,7 @@ if ENV['MACKEREL_AGENT_PLUGIN_META'] == '1'
         :metrics => [
           {
             :name => 'percent',
-            :label => 'percent'
+            :label => 'Percent'
           }
         ]
       },
