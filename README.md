@@ -16,12 +16,10 @@ will export metrics
 ping.latency.HOST1.avg
 ping.latency.HOST1.min
 ping.latency.HOST1.max
-ping.latency.HOST1.stddev
 ping.packet_loss.HOST1_packet_loss
 ping.latency.HOST2.avg
 ping.latency.HOST2.min
 ping.latency.HOST2.max
-ping.latency.HOST2.stddev
 ping.packet_loss.HOST2_packet_loss
 ...
 ```
@@ -46,8 +44,8 @@ command = ["plugins\\bin\\mackerel-plugin-pinglatency.exe", "HOST"]
 ```
 
 ### Options
-- `-c COUNT`: Number of ping packets (default: 3)
-- `-t SECONDS`: Timeout seconds for each ping packet (default: 5)
+- `-c COUNT`: Number of ping packets (default: 5)
+- `-t SECONDS`: Timeout seconds for ping (default: 15)
 - `-V`: Verbose mode
 - `-v`: Show version
 
@@ -72,12 +70,10 @@ mackerel-plugin-pinglatency HOST1 HOST2 ...
 ping.latency.HOST1.avg
 ping.latency.HOST1.min
 ping.latency.HOST1.max
-ping.latency.HOST1.stddev
 ping.packet_loss.HOST1_packet_loss
 ping.latency.HOST2.avg
 ping.latency.HOST2.min
 ping.latency.HOST2.max
-ping.latency.HOST2.stddev
 ping.packet_loss.HOST2_packet_loss
 ...
 ```
@@ -102,8 +98,8 @@ command = ["plugins\\bin\\mackerel-plugin-pinglatency.exe", "HOST"]
 ```
 
 ### オプション
-- `-c COUNT`: pingパケットの試行回数 (デフォルト: 3)
-- `-t SECONDS`: pingパケットのタイムアウト秒 (デフォルト: 5)
+- `-c COUNT`: pingパケットの試行回数 (デフォルト: 5)
+- `-t SECONDS`: pingのタイムアウト秒 (デフォルト: 15)
 - `-V`: 冗長モード
 - `-v`: バージョン表示
 
