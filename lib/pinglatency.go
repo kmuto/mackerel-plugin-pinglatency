@@ -37,10 +37,10 @@ func (p *Plugin) GraphDefinition() map[string]mp.Graphs {
 	for _, host := range p.Hosts {
 		eh := strings.ReplaceAll(host, ".", "_")
 		latencyGraph := graphdef["ping.latency"]
-		latencyGraph.Metrics = append(latencyGraph.Metrics, mp.Metrics{Name: eh + ".avg", Label: host + " avg"}, mp.Metrics{Name: eh + ".min", Label: host + " min"}, mp.Metrics{Name: eh + ".max", Label: host + " max"}, mp.Metrics{Name: eh + ".stddev", Label: host + " stddev"})
+		latencyGraph.Metrics = append(latencyGraph.Metrics, mp.Metrics{Name: eh + "_avg", Label: host + " avg"}, mp.Metrics{Name: eh + "_min", Label: host + " min"}, mp.Metrics{Name: eh + "_max", Label: host + " max"}, mp.Metrics{Name: eh + "_stddev", Label: host + " stddev"})
 		graphdef["ping.latency"] = latencyGraph
 		lossGraph := graphdef["ping.packet_loss"]
-		lossGraph.Metrics = append(lossGraph.Metrics, mp.Metrics{Name: eh + ".packet_loss", Label: host + " packet loss"})
+		lossGraph.Metrics = append(lossGraph.Metrics, mp.Metrics{Name: eh + "_packet_loss", Label: host + " packet loss"})
 		graphdef["ping.packet_loss"] = lossGraph
 	}
 	return graphdef
@@ -115,25 +115,33 @@ func (p *Plugin) FetchMetrics() (map[string]float64, error) {
 			continue
 		}
 		eh := strings.ReplaceAll(r.host, ".", "_")
-		ret[eh+".packet_loss"] = r.packetLoss
+		ret[eh+"_packet_loss"] = r.packetLoss
 		if r.packetLoss == 100.0 {
 			continue
 		}
-		ret[eh+".avg"] = r.avg
-		ret[eh+".min"] = r.min
-		ret[eh+".max"] = r.max
-		ret[eh+".stddev"] = r.stddev
+		ret[eh+"_avg"] = r.avg
+		ret[eh+"_min"] = r.min
+		ret[eh+"_max"] = r.max
+		ret[eh+"_stddev"] = r.stddev
 	}
 	return ret, nil
 }
+
+var version string
+var revision string
 
 // Do the plugin
 func Do() {
 	optCount := flag.Int("c", 3, "Number of ping packets")
 	optTimeout := flag.Int("t", 5, "Timeout seconds for each ping packet")
-	optVerbose := flag.Bool("v", false, "Verbose mode")
+	optVerbose := flag.Bool("V", false, "Verbose mode")
+	optVersion := flag.Bool("v", false, "Show version")
 	flag.Parse()
 
+	if optVersion != nil && *optVersion {
+		fmt.Printf("mackerel-plugin-pinglatency Version %s (rev %s)\n", version, revision)
+		os.Exit(0)
+	}
 	if len(flag.Args()) == 0 {
 		flag.Usage()
 		fmt.Fprintf(os.Stderr, "Hosts are not specified\n")

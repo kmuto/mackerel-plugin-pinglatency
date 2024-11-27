@@ -1,5 +1,7 @@
 builds:
-  - binary: mackerel-plugin-pinglatency
+  - env:
+    - CGO_ENABLED=0
+    - PACKAGE_PATH=github.com/kmuto/mackerel-plugin-pinglatency/lib
     goos:
       - linux
       - darwin
@@ -7,10 +9,13 @@ builds:
     goarch:
       - amd64
       - arm64
+    ldflags:
+      - -s -w
+      - -X {{ .Env.PACKAGE_PATH }}.version={{ .Version }}
+      - -X {{ .Env.PACKAGE_PATH }}.revision={{ .ShortCommit }}
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
-release:
-  github:
-    owner: kmuto
-    name: mackerel-plugin-pinglatency
+    files:
+      - README.md
+      - LICENSE
