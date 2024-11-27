@@ -16,11 +16,11 @@ will export metrics
 ping.latency.HOST1.avg
 ping.latency.HOST1.min
 ping.latency.HOST1.max
-ping.packet_loss.HOST1.packet_loss
+ping.packet_loss.HOST1_packet_loss
 ping.latency.HOST2.avg
 ping.latency.HOST2.min
 ping.latency.HOST2.max
-ping.packet_loss.HOST2.packet_loss
+ping.packet_loss.HOST2_packet_loss
 ...
 ```
 
@@ -70,11 +70,11 @@ mackerel-plugin-pinglatency HOST1 HOST2 ...
 ping.latency.HOST1.avg
 ping.latency.HOST1.min
 ping.latency.HOST1.max
-ping.packet_loss.HOST1.packet_loss
+ping.packet_loss.HOST1_packet_loss
 ping.latency.HOST2.avg
 ping.latency.HOST2.min
 ping.latency.HOST2.max
-ping.packet_loss.HOST2.packet_loss
+ping.packet_loss.HOST2_packet_loss
 ...
 ```
 
