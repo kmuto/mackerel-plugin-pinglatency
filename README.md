@@ -3,7 +3,7 @@
 [日本語](#説明)
 
 ## Description
-Show ping packet loss and ping latencies on Mackerel graph.
+**mackerel-plugin-pinglatency** shows ping packet loss and ping latencies on Mackerel graph.
 
 ## Synopsis
 ```
@@ -26,8 +26,14 @@ ping.packet_loss.HOST2_packet_loss
 
 ## Usage
 ### Installation
+On Linux:
 ```
-mkr plugin install kmuto/mackerel-plugin-pinglatency
+sudo mkr plugin install kmuto/mackerel-plugin-pinglatency
+```
+
+On Windows (as Administrator):
+```
+"C:\Program Files\Mackerel\mackerel-agent\mkr.exe" plugin install kmuto/mackerel-plugin-pinglatency
 ```
 
 ### Definition in mackerel-agent.conf
@@ -57,7 +63,7 @@ MIT License (see LICENSE file)
 ---
 
 ## 説明
-pingパケットおよびpingレイテンシーをMackerelのグラフとして表示します。
+**mackerel-plugin-pinglatency** は、pingパケットおよびpingレイテンシーをMackerelのグラフとして表示します。
 
 ## 概要
 ```
@@ -80,8 +86,14 @@ ping.packet_loss.HOST2_packet_loss
 
 ## 使い方
 ### プラグインのインストール
+Linuxの場合:
 ```
-mkr plugin install kmuto/mackerel-plugin-pinglatency
+sudo mkr plugin install kmuto/mackerel-plugin-pinglatency
+```
+
+Windowsの場合 (管理者権限):
+```
+"C:\Program Files\Mackerel\mackerel-agent\mkr.exe" plugin install kmuto/mackerel-plugin-pinglatency
 ```
 
 ### mackerel-agent.confでの設定
